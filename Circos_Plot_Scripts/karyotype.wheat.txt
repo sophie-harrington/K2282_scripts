@@ -1,0 +1,15 @@
+chr	-	chr1A	Chr1A	0	594102056	black
+chr	-	chr1B	Chr1B	0	689851870	black
+chr	-	chr2A	Chr2A	0	780798557	black
+chr	-	chr2B	Chr2B	0	801256715	black
+chr	-	chr3A	Chr3A	0	750843639	black
+chr	-	chr3B	Chr3B	0	830829764	black
+chr	-	chr4A	Chr4A	0	744588157	black
+chr	-	chr4B	Chr4B	0	673617499	black
+chr	-	chr5A	Chr5A	0	709773743	black
+chr	-	chr5B	Chr5B	0	713149757	black
+chr	-	chr6A	Chr6A	0	618079260	black
+chr	-	chr6B	Chr6B	0	720988478	black
+chr	-	chr7A	Chr7A	0	736706236	black
+chr	-	chr7B	Chr7B	0	750620385	black
+chr	-	chrUn	ChrUn	0	480980714	black
