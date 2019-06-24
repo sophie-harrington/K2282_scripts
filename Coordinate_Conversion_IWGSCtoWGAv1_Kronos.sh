@@ -15,6 +15,10 @@
 # To do this, we want to BLAST the SNP, including 150 bp of flanking sequence on either side, against the NRGene assembly. This contig size should give us enough confidence in the
 # position of the alignment and yet be small enough to avoid InDels that might disrupt the alignment.
 
+source blast+-2.2.30
+source bedtools-2.24.0
+source samtools-1.3
+
 Input='K2282_maps_main_set.txt'
 filename='K2282_maps_main_set_KronosRef'
 
@@ -59,7 +63,7 @@ paste \
 #Next step: Extend coordinates to 150bp either side of the SNP, but use fasta index to prevent extension past the start/end of scaffold.
 #Use the command "slop" from BEDTools --> might be better just to have 300 bo
 
-source bedtools-2.24.0; bedtools slop \
+bedtools slop \
 		-i $filename.bed \
 		-g /nbi/group-data/ifs/NBI/Cristobal-Uauy/IWGSC_data/IWGSC_all/IWGSC-all_UCW-Kronos_U.fa.fai \
 		-l 300 \
@@ -67,14 +71,14 @@ source bedtools-2.24.0; bedtools slop \
 		> $filename-slop-left-300.bed
 
 #Using the modified BED file, extract SNP and flanking sequence using "getfasta" in BEDTools; -name give the fasta file the unique ID from the BED file
-source bedtools-2.24.0; bedtools getfasta \
+bedtools getfasta \
 		-fi /nbi/group-data/ifs/NBI/Cristobal-Uauy/IWGSC_data/IWGSC_all/IWGSC-all_UCW-Kronos_U.fa \
 		-bed $filename-slop-left-300.bed \
 		-fo $filename-slop-left-300.fa \
 		-name
 
 #Finally, index the fasta file to get the length and name of each entry
-source samtools-1.3; samtools faidx $filename-slop-left-300.fa
+samtools faidx $filename-slop-left-300.fa
 
 #Preparation is complete- now time to BLAST against the NRGene assembly
 
@@ -86,8 +90,9 @@ split -l 2 --suffix-length=4 --additional-suffix=.txt $filename-slop-left-300.fa
 
 cd ./split-files-300/
 mkdir ./split-BLAST-output-slop-left-300-Kronos
+
 for file in $filename-slop-left-300_split-*; do
-	source blast+-2.2.30; blastn \
+	blastn \
 		-task megablast \
 		-db /nbi/group-data/ifs/NBI/Cristobal-Uauy/WGAv1.0/161010_Chinese_Spring_v1.0_pseudomolecules_parts_tetraploid \
 		-query $file \
